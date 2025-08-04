@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"github.com/felipear89/agent/pkg/server/errors"
 	"net/http"
 	"time"
 
@@ -36,9 +37,10 @@ func Delay(ctx context.Context, d time.Duration) error {
 func slow(api *gin.RouterGroup) gin.IRoutes {
 
 	return api.GET("/slow", func(c *gin.Context) {
-		err := Delay(c.Request.Context(), 10*time.Second)
+		err := Delay(c.Request.Context(), 8*time.Second)
 		if err != nil {
-			c.Error(fmt.Errorf("Request was interrupted: %w", err))
+			internalError := errors.NewInternalError(fmt.Errorf("SLOW ERROR: %v", err))
+			c.Error(internalError)
 			return
 		}
 		c.JSON(http.StatusOK, gin.H{"message": "This will never be reached"})
