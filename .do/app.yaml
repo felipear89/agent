@@ -1,8 +1,36 @@
 name: agent
 
+ingress:
+  rules:
+  - component:
+      name: api
+    match:
+      path:
+        prefix: /api
+  - component:
+      name: website
+    cors:
+      allow_origins:
+      - prefix: https://internal.example-app.com
+    match:
+      path:
+        prefix: /
+
 services:
   - name: api
     environment_slug: go
+    autoscaling:
+      min_instances: 1
+      max_instances: 2
+      metrics:
+        cpu:
+          percent: 90
+    alerts:
+      - rule: CPU_UTILIZATION
+        disabled: false
+        operator: GREATER_THAN
+        value: 75
+        window: FIVE_MINUTES
     envs:
       - key: GIN_MODE
         value: release
@@ -10,7 +38,7 @@ services:
         type: GENERAL
       - key: SECRET_KEY
         value: EV[1:zqiRIeaaYK/NqctZDYzy6t0pTrtRDeq8:wqGpZRrsKN5nPhWQrS479cfBiXT0WQ==]
-        type: secret
+        type: SECRET
     github:
       repo: felipear89/agent
       branch: main
@@ -19,4 +47,13 @@ services:
     instance_count: 1
     instance_size_slug: apps-s-1vcpu-0.5gb 
     routes:
-      - path: /agent
+      - path: /
+
+static_sites:
+- environment_slug: html
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: felipear89/agent
+  name: website
+  source_dir: /frontend
