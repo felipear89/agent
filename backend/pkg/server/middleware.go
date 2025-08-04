@@ -6,7 +6,7 @@ import (
 
 func (s *Server) setupMiddleware() {
 	s.router.Use(middleware.ErrorHandler())
-	s.router.Use(middleware.Logger())
-	s.router.Use(middleware.DefaultTimeout(s.config.Timeout))
 	s.router.Use(middleware.Recovery())
+	s.router.Use(middleware.DefaultTimeout(s.config.Timeout))
+	s.router.Use(middleware.Logger())
 }

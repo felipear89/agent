@@ -1,6 +1,8 @@
 package server
 
 import (
+	"context"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -19,9 +21,26 @@ func (s *Server) RegisterAPIRoutes() *gin.RouterGroup {
 	return api
 }
 
+// Delay returns nil after the specified duration or error if interrupted.
+func Delay(ctx context.Context, d time.Duration) error {
+	t := time.NewTimer(d)
+	select {
+	case <-ctx.Done():
+		t.Stop()
+		return fmt.Errorf("Interrupted")
+	case <-t.C:
+	}
+	return nil
+}
+
 func slow(api *gin.RouterGroup) gin.IRoutes {
+
 	return api.GET("/slow", func(c *gin.Context) {
-		time.Sleep(20 * time.Second)
+		err := Delay(c.Request.Context(), 10*time.Second)
+		if err != nil {
+			c.Error(fmt.Errorf("Request was interrupted: %w", err))
+			return
+		}
 		c.JSON(http.StatusOK, gin.H{"message": "This will never be reached"})
 	})
 }

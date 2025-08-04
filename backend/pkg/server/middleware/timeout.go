@@ -21,12 +21,6 @@ func DefaultTimeout(duration time.Duration) gin.HandlerFunc {
 	return Timeout(TimeoutConfig{
 		Timeout:      duration,
 		ErrorMessage: "Request processing timed out",
-		OnTimeout: func(c *gin.Context) {
-			slog.ErrorContext(c.Request.Context(), "Request timeout",
-				"method", c.Request.Method,
-				"path", c.Request.URL.Path,
-			)
-		},
 	})
 }
 
