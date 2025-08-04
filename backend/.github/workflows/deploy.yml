@@ -2,7 +2,12 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    paths:
+      - "backend/**"
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+#...
 
 permissions:
   contents: read
