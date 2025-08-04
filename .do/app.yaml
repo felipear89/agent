@@ -17,8 +17,8 @@ services:
   - name: api
     environment_slug: go
     autoscaling:
-      min_instances: 1
-      max_instances: 2
+      min_instance_count: 1
+      max_instance_count: 2
       metrics:
         cpu:
           percent: 90
