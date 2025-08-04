@@ -8,10 +8,20 @@ type Repository interface {
 	Create(user User) (*User, error)
 	Update(user User) (*User, error)
 	Delete(id int) error
+	FindByEmail(email string) (*User, error)
 }
 
 type InMemoryRepository struct {
 	users []User
+}
+
+func (r *InMemoryRepository) FindByEmail(email string) (*User, error) {
+	for _, user := range r.users {
+		if user.Email == email {
+			return &user, nil
+		}
+	}
+	return nil, fmt.Errorf("user with email %s not found", email)
 }
 
 func NewInMemoryRepository() *InMemoryRepository {
@@ -19,6 +29,7 @@ func NewInMemoryRepository() *InMemoryRepository {
 		users: []User{
 			{ID: 1, Name: "John Doe", Email: "john@example.com", Username: "johndoe"},
 			{ID: 2, Name: "Jane Smith", Email: "jane@example.com", Username: "janesmith"},
+			{ID: 3, Name: "Felipe Rodrigues", Email: "felipear89@gmail.com", Username: "felipe", Password: "123456"},
 		},
 	}
 }

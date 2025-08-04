@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/felipear89/agent/pkg/auth"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -18,7 +19,15 @@ func main() {
 
 	slog.Info("Starting application")
 
-	cfg := config.LoadConfig()
+	// Load configuration
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		slog.Error("Failed to load configuration", "error", err)
+		os.Exit(1)
+	}
+
+	userSvc := user.Register()
+	authSvc := auth.Register(cfg)
 
 	srv := server.New(&server.Config{
 		Port:         cfg.ServerPort,
@@ -30,7 +39,10 @@ func main() {
 	})
 
 	api := srv.RegisterAPIRoutes()
-	user.Register(api)
+	auth.NewHandler(api, authSvc, userSvc)
+
+	api.Use(authSvc.AuthMiddleware())
+	user.NewHandler(api, userSvc)
 
 	// Start the server in a goroutine to allow graceful shutdown
 	serverErrors := make(chan error, 1)

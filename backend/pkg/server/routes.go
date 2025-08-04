@@ -11,6 +11,11 @@ func (s *Server) RegisterAPIRoutes() *gin.RouterGroup {
 	api := s.router.Group(s.config.BasePath)
 	health(api)
 	slow(api)
+	api.GET("/test-panic", func(c *gin.Context) {
+		var nilMap map[string]string
+		// This will cause a panic
+		nilMap["key"] = "value"
+	})
 	return api
 }
 

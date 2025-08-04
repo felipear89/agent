@@ -1,10 +1,12 @@
 package user
 
+import "errors"
+
 type Service struct {
 	repo Repository
 }
 
-func NewService(repo Repository) *Service {
+func newService(repo Repository) *Service {
 	return &Service{repo: repo}
 }
 
@@ -26,4 +28,15 @@ func (s *Service) UpdateUser(user User) (*User, error) {
 
 func (s *Service) DeleteUser(id int) error {
 	return s.repo.Delete(id)
+}
+
+func (s *Service) Authenticate(email, password string) (*User, error) {
+	user, err := s.repo.FindByEmail(email)
+	if err != nil {
+		return nil, err
+	}
+	if user.Password != password {
+		return nil, errors.New("invalid credentials")
+	}
+	return user, nil
 }

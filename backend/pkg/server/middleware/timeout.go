@@ -38,8 +38,6 @@ func Timeout(config TimeoutConfig) gin.HandlerFunc {
 			return
 		}
 
-		slog.Info("Starting timeout middleware")
-
 		ctx, cancel := context.WithTimeout(c.Request.Context(), config.Timeout)
 		defer cancel()
 

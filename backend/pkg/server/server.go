@@ -41,6 +41,7 @@ func New(cfg *Config) *Server {
 		config:     cfg,
 	}
 
+	// Setup middleware
 	server.setupMiddleware()
 
 	return server
@@ -48,7 +49,13 @@ func New(cfg *Config) *Server {
 
 func (s *Server) Start() error {
 	slog.Info("Server starting", "address", s.httpServer.Addr)
-	return s.httpServer.ListenAndServe()
+
+	err := s.httpServer.ListenAndServe()
+	if err != nil && err != http.ErrServerClosed {
+		slog.Error("Server error", "error", err)
+		return err
+	}
+	return nil
 }
 
 func (s *Server) Shutdown(ctx context.Context) error {

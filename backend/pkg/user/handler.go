@@ -13,8 +13,10 @@ type Handler struct {
 	service *Service
 }
 
-func NewHandler(service *Service) *Handler {
-	return &Handler{service: service}
+func NewHandler(api *gin.RouterGroup, service *Service) *Handler {
+	h := &Handler{service: service}
+	h.RegisterRoutes(api)
+	return h
 }
 
 func (h *Handler) RegisterRoutes(router *gin.RouterGroup) {

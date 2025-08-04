@@ -1,10 +1,7 @@
 package user
 
-import "github.com/gin-gonic/gin"
-
-func Register(api *gin.RouterGroup) {
-	repository := NewInMemoryRepository()
-	service := NewService(repository)
-	handler := NewHandler(service)
-	handler.RegisterRoutes(api)
+func Register() *Service {
+	repo := NewInMemoryRepository()
+	service := newService(repo)
+	return service
 }
