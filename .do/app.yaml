@@ -41,7 +41,6 @@ services:
       branch: main
       deploy_on_push: true
     source_dir: backend
-    instance_count: 1
     instance_size_slug: apps-s-1vcpu-0.5gb
 
 static_sites:
