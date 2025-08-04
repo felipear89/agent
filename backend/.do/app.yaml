@@ -1,0 +1,6 @@
+name: agent
+services:
+  - name: web
+    github:
+      repo: felipear89/agent
+      branch: main
