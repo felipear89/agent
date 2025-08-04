@@ -7,6 +7,6 @@ services:
       repo: felipear89/agent
       branch: main
       deploy_on_push: true
-    source_dir: api
+    source_dir: backend
     routes:
       - path: /api
