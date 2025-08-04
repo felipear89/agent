@@ -35,7 +35,7 @@ services:
         scope: RUN_TIME
         type: GENERAL
       - key: SECRET_KEY
-        value: EV[1:zqiRIeaaYK/NqctZDYzy6t0pTrtRDeq8:wqGpZRrsKN5nPhWQrS479cfBiXT0WQ==]
+        value: secret123
         type: SECRET
     github:
       repo: felipear89/agent
