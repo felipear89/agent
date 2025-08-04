@@ -9,9 +9,6 @@ ingress:
         prefix: /api
   - component:
       name: website
-    cors:
-      allow_origins:
-      - prefix: https://internal.example-app.com
     match:
       path:
         prefix: /
@@ -45,9 +42,7 @@ services:
       deploy_on_push: true
     source_dir: backend
     instance_count: 1
-    instance_size_slug: apps-s-1vcpu-0.5gb 
-    routes:
-      - path: /
+    instance_size_slug: apps-s-1vcpu-0.5gb
 
 static_sites:
 - environment_slug: html
