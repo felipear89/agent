@@ -1,9 +1,12 @@
 package user
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/felipear89/agent/pkg/server/errors"
+	"github.com/gin-gonic/gin"
 )
 
 type Handler struct {
@@ -28,143 +31,156 @@ func (h *Handler) RegisterRoutes(router *gin.RouterGroup) {
 func (h *Handler) ListUsers(c *gin.Context) {
 	users, err := h.service.GetAllUsers()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, Response{
-			Success: false,
-			Message: "Failed to fetch users",
-		})
+		c.Error(errors.Wrap(err, errors.ErrCodeInternal, "failed to fetch users", http.StatusInternalServerError))
 		return
 	}
 
-	c.JSON(http.StatusOK, Response{
-		Success: true,
-		Data:    users,
-	})
+	c.JSON(http.StatusOK, users)
 }
 
 func (h *Handler) GetUser(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, Response{
-			Success: false,
-			Message: "Invalid user ID",
-		})
+		c.Error(errors.New(
+			errors.ErrCodeInvalidInput,
+			"Invalid user ID",
+			http.StatusBadRequest,
+		))
 		return
 	}
 
 	user, err := h.service.GetUser(id)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, Response{
-			Success: false,
-			Message: "Failed to fetch user",
-		})
+		c.Error(errors.Wrap(
+			err,
+			errors.ErrCodeNotFound,
+			fmt.Sprintf("User with ID %d not found", id),
+			http.StatusNotFound,
+		))
 		return
 	}
 
-	if user == nil {
-		c.JSON(http.StatusNotFound, Response{
-			Success: false,
-			Message: "User not found",
-		})
-		return
-	}
+	c.JSON(http.StatusOK, user)
+}
 
-	c.JSON(http.StatusOK, Response{
-		Success: true,
-		Data:    user,
-	})
+type CreateUserRequest struct {
+	Name  string `json:"name" binding:"required"`
+	Email string `json:"email" binding:"required,email"`
 }
 
 func (h *Handler) CreateUser(c *gin.Context) {
-	var user User
-	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, Response{
-			Success: false,
-			Message: err.Error(),
-		})
+	var req CreateUserRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.Error(errors.New(
+			errors.ErrCodeInvalidInput,
+			"Invalid request body",
+			http.StatusBadRequest,
+		))
 		return
 	}
 
-	createdUser, err := h.service.CreateUser(user)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, Response{
-			Success: false,
-			Message: "Failed to create user",
-		})
+	// Validate request
+	if req.Name == "" || req.Email == "" {
+		c.Error(errors.New(
+			errors.ErrCodeInvalidInput,
+			"Name and email are required",
+			http.StatusBadRequest,
+		))
 		return
 	}
 
-	c.JSON(http.StatusCreated, Response{
-		Success: true,
-		Message: "User created successfully",
-		Data:    createdUser,
+	user, err := h.service.CreateUser(User{
+		Name:  req.Name,
+		Email: req.Email,
 	})
+	if err != nil {
+		c.Error(errors.Wrap(
+			err,
+			errors.ErrCodeInternal,
+			"Failed to create user",
+			http.StatusInternalServerError,
+		))
+		return
+	}
+
+	c.JSON(http.StatusCreated, user)
+}
+
+type UpdateUserRequest struct {
+	Name  string `json:"name"`
+	Email string `json:"email" binding:"omitempty,email"`
 }
 
 func (h *Handler) UpdateUser(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, Response{
-			Success: false,
-			Message: "Invalid user ID",
-		})
+		c.Error(errors.New(
+			errors.ErrCodeInvalidInput,
+			"Invalid user ID",
+			http.StatusBadRequest,
+		))
 		return
 	}
 
-	var user User
-	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, Response{
-			Success: false,
-			Message: err.Error(),
-		})
+	var req UpdateUserRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.Error(errors.New(
+			errors.ErrCodeInvalidInput,
+			"Invalid request body",
+			http.StatusBadRequest,
+		))
 		return
 	}
 
-	user.ID = id
-	updatedUser, err := h.service.UpdateUser(user)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, Response{
-			Success: false,
-			Message: "Failed to update user",
-		})
+	// Validate request
+	if req.Name == "" && req.Email == "" {
+		c.Error(errors.New(
+			errors.ErrCodeInvalidInput,
+			"At least one field (name or email) is required",
+			http.StatusBadRequest,
+		))
 		return
 	}
 
-	if updatedUser == nil {
-		c.JSON(http.StatusNotFound, Response{
-			Success: false,
-			Message: "User not found",
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, Response{
-		Success: true,
-		Message: "User updated successfully",
-		Data:    updatedUser,
+	updatedUser, err := h.service.UpdateUser(User{
+		ID:    id,
+		Name:  req.Name,
+		Email: req.Email,
 	})
+	if err != nil {
+		c.Error(errors.Wrap(
+			err,
+			errors.ErrCodeInternal,
+			"Failed to update user",
+			http.StatusInternalServerError,
+		))
+		return
+	}
+
+	c.JSON(http.StatusOK, updatedUser)
 }
 
 func (h *Handler) DeleteUser(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		c.JSON(http.StatusBadRequest, Response{
-			Success: false,
-			Message: "Invalid user ID",
-		})
+		c.Error(errors.New(
+			errors.ErrCodeInvalidInput,
+			"Invalid user ID",
+			http.StatusBadRequest,
+		))
 		return
 	}
 
 	err = h.service.DeleteUser(id)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, Response{
-			Success: false,
-			Message: "Failed to delete user",
-		})
+		c.Error(errors.Wrap(
+			err,
+			errors.ErrCodeInternal,
+			"Failed to delete user",
+			http.StatusInternalServerError,
+		))
 		return
 	}
 
-	c.JSON(http.StatusOK, Response{
-		Success: true,
-		Message: "User deleted successfully",
-	})
+	c.Status(http.StatusNoContent)
 }

@@ -1,5 +1,7 @@
 package user
 
+import "fmt"
+
 type Repository interface {
 	FindAll() ([]User, error)
 	FindByID(id int) (*User, error)
@@ -31,7 +33,7 @@ func (r *InMemoryRepository) FindByID(id int) (*User, error) {
 			return &user, nil
 		}
 	}
-	return nil, nil
+	return nil, fmt.Errorf("user with ID %d not found", id)
 }
 
 func (r *InMemoryRepository) Create(user User) (*User, error) {

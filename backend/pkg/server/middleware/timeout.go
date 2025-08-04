@@ -3,11 +3,10 @@ package middleware
 import (
 	"context"
 	"errors"
+	"github.com/gin-gonic/gin"
 	"log/slog"
 	"net/http"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 type TimeoutConfig struct {
