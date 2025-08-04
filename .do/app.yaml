@@ -7,7 +7,7 @@ services:
       - key: GIN_MODE
         value: release
         scope: RUN_TIME
-        type: general
+        type: GENERAL
       - key: SECRET_KEY
         value: EV[1:zqiRIeaaYK/NqctZDYzy6t0pTrtRDeq8:wqGpZRrsKN5nPhWQrS479cfBiXT0WQ==]
         type: secret
