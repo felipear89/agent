@@ -1,12 +1,22 @@
-name: sample-monorepo
+name: agent
 
 services:
   - name: api
     environment_slug: go
+    envs:
+      - key: GIN_MODE
+        value: release
+        scope: RUN_TIME
+        type: general
+      - key: SECRET_KEY
+        value: EV[1:zqiRIeaaYK/NqctZDYzy6t0pTrtRDeq8:wqGpZRrsKN5nPhWQrS479cfBiXT0WQ==]
+        type: secret
     github:
       repo: felipear89/agent
       branch: main
       deploy_on_push: true
     source_dir: backend
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-0.5gb 
     routes:
-      - path: /api
+      - path: /agent
