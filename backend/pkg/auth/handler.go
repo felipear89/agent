@@ -14,9 +14,9 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	AccessToken string `json:"access_token"`
-	TokenType   string `json:"token_type"`
-	ExpiresIn   int64  `json:"expires_in"`
+	AccessToken string `json:"accessToken"`
+	TokenType   string `json:"tokenType"`
+	ExpiresAt   int64  `json:"expiresAt"`
 }
 
 type AuthHandler struct {
@@ -68,9 +68,9 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, LoginResponse{
-		AccessToken: token,
+		AccessToken: token.SignedJWT,
 		TokenType:   "Bearer",
-		ExpiresIn:   int64(h.authService.cfg.TokenExpiryDuration().Seconds()),
+		ExpiresAt:   token.ExpiresAt.Unix(),
 	})
 }
 

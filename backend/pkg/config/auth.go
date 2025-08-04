@@ -10,9 +10,11 @@ import (
 )
 
 type AuthConfig struct {
-	JWTPrivateKey    string `env:"JWT_PRIVATE_KEY,required"`
-	JWTPublicKey     string `env:"JWT_PUBLIC_KEY,required"`
-	TokenExpiry      string `env:"JWT_EXPIRATION" envDefault:"24h"`
+	JWTPrivateKey string `env:"JWT_PRIVATE_KEY,required"`
+	JWTPublicKey  string `env:"JWT_PUBLIC_KEY,required"`
+	TokenExpiry   string `env:"JWT_EXPIRATION" envDefault:"24h"`
+	Issuer        string `env:"JWT_ISSUER" envDefault:"agent"`
+
 	JWTPrivateKeyPEM *rsa.PrivateKey
 	JWTPublicKeyPEM  *rsa.PublicKey
 }

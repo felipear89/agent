@@ -3,10 +3,12 @@ package middleware
 import (
 	"context"
 	"errors"
-	"github.com/gin-gonic/gin"
 	"log/slog"
 	"net/http"
 	"time"
+
+	apperrors "github.com/felipear89/agent/pkg/server/errors"
+	"github.com/gin-gonic/gin"
 )
 
 type TimeoutConfig struct {
@@ -15,12 +17,17 @@ type TimeoutConfig struct {
 	OnTimeout    func(*gin.Context)
 }
 
-func DefaultTimeoutConfig() TimeoutConfig {
-	return TimeoutConfig{
-		Timeout:      10 * time.Second,
+func DefaultTimeout(duration time.Duration) gin.HandlerFunc {
+	return Timeout(TimeoutConfig{
+		Timeout:      duration,
 		ErrorMessage: "Request processing timed out",
-		OnTimeout:    nil,
-	}
+		OnTimeout: func(c *gin.Context) {
+			slog.ErrorContext(c.Request.Context(), "Request timeout",
+				"method", c.Request.Method,
+				"path", c.Request.URL.Path,
+			)
+		},
+	})
 }
 
 func Timeout(config TimeoutConfig) gin.HandlerFunc {
@@ -67,9 +74,13 @@ func Timeout(config TimeoutConfig) gin.HandlerFunc {
 				}
 
 				if !c.Writer.Written() {
-					c.AbortWithStatusJSON(http.StatusGatewayTimeout, gin.H{
-						"error": config.ErrorMessage,
-					})
+					c.Error(apperrors.New(
+						apperrors.ErrCodeTimeout,
+						config.ErrorMessage,
+						http.StatusRequestTimeout,
+					))
+					c.Abort()
+					return
 				}
 				c.Abort()
 			}

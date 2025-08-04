@@ -10,7 +10,7 @@ import (
 )
 
 type Claims struct {
-	UserID int    `json:"user_id"`
+	UserID int    `json:"userId"`
 	Email  string `json:"email"`
 	jwt.RegisteredClaims
 }
@@ -25,20 +25,36 @@ func newService(cfg *config.AuthConfig) *Service {
 	}
 }
 
-func (a *Service) GenerateToken(userID int, email string) (string, error) {
+type Token struct {
+	*jwt.Token
+
+	ExpiresAt time.Time
+	SignedJWT string
+}
+
+func (a *Service) GenerateToken(userID int, email string) (*Token, error) {
+	expiresAt := time.Now().Add(a.cfg.TokenExpiryDuration())
 	claims := &Claims{
 		UserID: userID,
 		Email:  email,
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(a.cfg.TokenExpiryDuration())),
+			ExpiresAt: jwt.NewNumericDate(expiresAt),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
-			Issuer:    "agent-legislacao-sp",
+			Issuer:    a.cfg.Issuer,
 		},
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
-	return token.SignedString(a.cfg.JWTPrivateKeyPEM)
+	signedString, err := token.SignedString(a.cfg.JWTPrivateKeyPEM)
+	if err != nil {
+		return nil, fmt.Errorf("failed to sign token: %w", err)
+	}
+	return &Token{
+		Token:     token,
+		ExpiresAt: expiresAt,
+		SignedJWT: signedString,
+	}, nil
 }
 
 func (a *Service) ValidateToken(tokenString string) (*Claims, error) {
