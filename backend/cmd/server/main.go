@@ -35,7 +35,7 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		IdleTimeout:  120 * time.Second,
 		Timeout:      cfg.TimeoutDuration(),
-		BasePath:     "/api/v1",
+		BasePath:     "/",
 	})
 
 	api := srv.RegisterAPIRoutes()
