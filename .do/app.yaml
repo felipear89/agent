@@ -1,5 +1,18 @@
 name: agent
 
+ingress:
+  rules:
+  # - component:
+  #     name: api
+  #   match:
+  #     path:
+  #       prefix: /api
+  - component:
+      name: website
+    match:
+      path:
+        prefix: /site
+
 services:
   # - name: api
   #   environment_slug: go
@@ -38,4 +51,7 @@ static_sites:
     deploy_on_push: true
     repo: felipear89/agent
   name: website
+  build_command: npm install && npm run build
   source_dir: /frontend
+  output_dir: ./dist
+
