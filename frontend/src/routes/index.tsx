@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthContext } from '@/contexts/AuthContext';
 import LoginPage from '@/pages/LoginPage';
 import WelcomePage from '@/pages/WelcomePage';
+import ChatPage from '@/pages/ChatPage';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function AppRoutes() {
@@ -30,12 +31,16 @@ export default function AppRoutes() {
           isAuthenticated ? <WelcomePage /> : <Navigate to="/login" replace />
         }
       />
+      <Route
+        path="/chat"
+        element={
+          isAuthenticated ? <ChatPage /> : <Navigate to="/login" replace />
+        }
+      />
       {/* fallback */}
       <Route
         path="*"
-        element={
-          <Navigate to={isAuthenticated ? '/welcome' : '/login'} replace />
-        }
+        element={<Navigate to={isAuthenticated ? '/welcome' : '/login'} replace />}
       />
     </Routes>
   );

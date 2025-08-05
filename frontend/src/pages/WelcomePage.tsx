@@ -1,27 +1,12 @@
 import { useAuthContext } from '@/contexts/AuthContext';
+import { Link } from 'react-router-dom';
 import './WelcomePage.css';
-import { useState } from 'react';
-
-interface User {
-  id: number;
-  name: string;
-}
+import UserList from '@/components/UserList';
+import { useUsers } from '@/hooks/useUsers';
 
 export default function WelcomePage() {
   const { logout } = useAuthContext();
-
-  const [users, setUsers] = useState<User[]>([]);
-
-  console.log("carregando")
-  let usersList = users.map((u) => (
-    <li className="users-list-item" key={u.id}>
-      {u.name}
-    </li>
-  ));
-
-  const addUser = () => {
-      setUsers([...users, { id: users.length + 1, name: `New User ${users.length}` }]);
-  }
+  const { users, addUser, deleteUser } = useUsers();
 
   return (
     <div className="page-container">
@@ -31,20 +16,17 @@ export default function WelcomePage() {
           <p>You have successfully logged in.</p>
         </div>
 
-        <div className="users-list">
-          <h2 className="users-list-title">List of users</h2>
-          <ul className="users-list-ul">
-            {usersList}
-          </ul>
+        <UserList users={users} onAddUser={addUser} onDeleteUser={deleteUser} />
+
+        <div className="navigation-buttons">
+          <Link to="/chat" className="nav-button chat-button">
+            💬 Go to Chat
+          </Link>
+          
+          <button className="logout-button" onClick={logout}>
+            Log Out
+          </button>
         </div>
-
-        <button className="add-user-button" onClick={addUser}>
-          Add User
-        </button>
-
-        <button className="logout-button" onClick={logout}>
-          Log Out
-        </button>
       </div>
     </div>
   );
