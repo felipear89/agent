@@ -1,35 +1,35 @@
 name: agent
 
 services:
-  - name: api
-    environment_slug: go
-    # autoscaling:
-    #   min_instance_count: 1
-    #   max_instance_count: 2
-    #   metrics:
-    #     cpu:
-    #       percent: 90
-    instance_count: 1
-    alerts:
-      - rule: CPU_UTILIZATION
-        disabled: false
-        operator: GREATER_THAN
-        value: 75
-        window: FIVE_MINUTES
-    envs:
-      - key: GIN_MODE
-        value: release
-        scope: RUN_TIME
-        type: GENERAL
-      - key: SECRET_KEY
-        value: secret123
-        type: SECRET
-    github:
-      repo: felipear89/agent
-      branch: main
-      deploy_on_push: true
-    source_dir: backend
-    instance_size_slug: apps-s-1vcpu-0.5gb
+  # - name: api
+  #   environment_slug: go
+  #   # autoscaling:
+  #   #   min_instance_count: 1
+  #   #   max_instance_count: 2
+  #   #   metrics:
+  #   #     cpu:
+  #   #       percent: 90
+  #   instance_count: 1
+  #   alerts:
+  #     - rule: CPU_UTILIZATION
+  #       disabled: false
+  #       operator: GREATER_THAN
+  #       value: 75
+  #       window: FIVE_MINUTES
+  #   envs:
+  #     - key: GIN_MODE
+  #       value: release
+  #       scope: RUN_TIME
+  #       type: GENERAL
+  #     - key: SECRET_KEY
+  #       value: secret123
+  #       type: SECRET
+  #   github:
+  #     repo: felipear89/agent
+  #     branch: main
+  #     deploy_on_push: true
+  #   source_dir: backend
+  #   instance_size_slug: apps-s-1vcpu-0.5gb
 
 static_sites:
 - environment_slug: html
