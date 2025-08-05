@@ -42,7 +42,7 @@ export default function useAuth(): AuthState & AuthActions {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         // For demo purposes, accept any non-empty credentials
-        if (credentials.username === 'a') {
+        if (credentials.username !== 'admin' && credentials.password !== 'admin') {
           throw new Error('Invalid credentials');
         }
 
