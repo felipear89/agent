@@ -5,15 +5,16 @@ export function useUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const nextIdRef = useRef(1);
 
-  const addUser = useCallback((name?: string) => {
+  const addUser = useCallback(() => {
     const newUser: User = {
       id: nextIdRef.current,
-      name: name || `New User ${nextIdRef.current}`
+      name: `New User ${nextIdRef.current}`
     };
     
     setUsers(prevUsers => [...prevUsers, newUser]);
     nextIdRef.current += 1;
     
+    console.log('User added:', newUser);
     return newUser; // Return the created user
   }, []);
 
