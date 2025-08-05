@@ -18,20 +18,3 @@ jobs:
           ignore_not_found: "true"
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Delete branch
-        if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.merged == false
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            try {
-              const branch = context.payload.pull_request.head.ref;
-              await github.rest.git.deleteRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: `heads/${branch}`,
-              });
-              console.log(`Branch ${branch} deleted`);
-            } catch (error) {
-              console.log(`Branch not deleted: ${error.message}`);
-            }
