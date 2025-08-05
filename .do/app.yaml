@@ -2,11 +2,11 @@ name: agent
 
 ingress:
   rules:
-  - component:
-      name: api
-    match:
-      path:
-        prefix: /api
+  # - component:
+  #     name: api
+  #   match:
+  #     path:
+  #       prefix: /api
   - component:
       name: website
     match:
