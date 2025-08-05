@@ -11,7 +11,7 @@ interface LoginFormData {
 export default function LoginPage() {
   const navigate = useNavigate();
   const { login, error, clearError, isAuthenticated } = useAuthContext();
-  
+
   const {
     register,
     handleSubmit,
@@ -28,7 +28,7 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     // Clear any previous errors when submitting
     clearError();
-    
+
     try {
       await login(data);
       // Navigation will be handled by the useEffect above
@@ -41,13 +41,13 @@ export default function LoginPage() {
     <div className="page-container">
       <form onSubmit={handleSubmit(onSubmit)} className="login-form">
         <h1>Login</h1>
-        
+
         {error && (
           <div className="error-message" style={{ textAlign: 'center' }}>
             {error}
           </div>
         )}
-        
+
         <div className="form-group">
           <input
             type="text"
@@ -63,7 +63,7 @@ export default function LoginPage() {
           <input
             type="password"
             placeholder="Password"
-            {...register('password', { 
+            {...register('password', {
               required: 'Password is required',
               minLength: {
                 value: 6,

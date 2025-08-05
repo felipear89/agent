@@ -30,37 +30,40 @@ export default function useAuth(): AuthState & AuthActions {
     }));
   }, []);
 
-  const login = useCallback(async (credentials: { username: string; password: string }) => {
-    setState(prev => ({ ...prev, isLoading: true, error: null }));
-    
-    try {
-      // TODO: Replace with actual API call
-      // const response = await api.login(credentials);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demo purposes, accept any non-empty credentials
-      if (credentials.username === 'a') {
-        throw new Error('Invalid credentials');
+  const login = useCallback(
+    async (credentials: { username: string; password: string }) => {
+      setState(prev => ({ ...prev, isLoading: true, error: null }));
+
+      try {
+        // TODO: Replace with actual API call
+        // const response = await api.login(credentials);
+
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // For demo purposes, accept any non-empty credentials
+        if (credentials.username === 'a') {
+          throw new Error('Invalid credentials');
+        }
+
+        setAuth(true);
+        setState(prev => ({
+          ...prev,
+          isAuthenticated: true,
+          isLoading: false,
+          error: null,
+        }));
+      } catch (error) {
+        setState(prev => ({
+          ...prev,
+          isAuthenticated: false,
+          isLoading: false,
+          error: error instanceof Error ? error.message : 'Login failed',
+        }));
       }
-      
-      setAuth(true);
-      setState(prev => ({
-        ...prev,
-        isAuthenticated: true,
-        isLoading: false,
-        error: null,
-      }));
-    } catch (error) {
-      setState(prev => ({
-        ...prev,
-        isAuthenticated: false,
-        isLoading: false,
-        error: error instanceof Error ? error.message : 'Login failed',
-      }));
-    }
-  }, []);
+    },
+    []
+  );
 
   const logout = useCallback(() => {
     clearAuth();

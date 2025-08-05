@@ -33,7 +33,9 @@ export default function AppRoutes() {
       {/* fallback */}
       <Route
         path="*"
-        element={<Navigate to={isAuthenticated ? '/welcome' : '/login'} replace />}
+        element={
+          <Navigate to={isAuthenticated ? '/welcome' : '/login'} replace />
+        }
       />
     </Routes>
   );

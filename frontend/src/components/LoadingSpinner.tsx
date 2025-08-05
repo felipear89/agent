@@ -3,9 +3,9 @@ interface LoadingSpinnerProps {
   message?: string;
 }
 
-export default function LoadingSpinner({ 
-  size = 'medium', 
-  message = 'Loading...' 
+export default function LoadingSpinner({
+  size = 'medium',
+  message = 'Loading...',
 }: LoadingSpinnerProps) {
   const sizeClasses = {
     small: 'w-4 h-4',
@@ -21,4 +21,4 @@ export default function LoadingSpinner({
       {message && <p className="text-gray-600">{message}</p>}
     </div>
   );
-} 
+}
