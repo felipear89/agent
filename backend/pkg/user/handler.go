@@ -60,7 +60,7 @@ type CreateUserRequest struct {
 func (h *Handler) CreateUser(c *gin.Context) {
 	var req CreateUserRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		apperror.BadRequestResponse(c, err)
+		apperror.BadRequestCustomResponse(c, err, err.Error())
 		return
 	}
 

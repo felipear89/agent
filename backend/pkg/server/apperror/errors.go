@@ -69,7 +69,7 @@ func UnauthorizedResponse(c *gin.Context, msg string) {
 }
 
 func abort(c *gin.Context, status int, response *ErrorResponse) {
-	if errors.Is(c.Errors.Last(), context.DeadlineExceeded) {
+	if c.Errors != nil && c.Errors.Last() != nil && errors.Is(c.Errors.Last().Err, context.DeadlineExceeded) {
 		c.AbortWithStatusJSON(http.StatusRequestTimeout, New(ErrCodeTimeout, "Request processing timed out"))
 		return
 	}
