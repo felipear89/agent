@@ -22,10 +22,14 @@ services:
         value: release
         scope: RUN_TIME
         type: GENERAL
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        type: SECRET
+        value: EV[1:6yD+cxTofsc8GwntXk4kqhpzdRCUbbQU:S+dXrmsXFd2bQ81MVvJpTQ0M+Rhx]
     github:
       repo: felipear89/agent
       branch: main
-      deploy_on_push: false
+      deploy_on_push: true
     source_dir: backend
     instance_size_slug: apps-s-1vcpu-0.5gb
 
@@ -34,7 +38,7 @@ static_sites:
     environment_slug: html
     github:
       branch: main
-      deploy_on_push: false
+      deploy_on_push: true
       repo: felipear89/agent
     build_command: npm install && npm run build
     catchall_document: index.html
