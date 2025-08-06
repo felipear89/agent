@@ -4,7 +4,7 @@ import (
 	"github.com/felipear89/agent/pkg/user"
 	"net/http"
 
-	"github.com/felipear89/agent/pkg/server/errors"
+	"github.com/felipear89/agent/pkg/server/apperror"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,34 +36,21 @@ func NewHandler(api *gin.RouterGroup, authService *Service, userService *user.Se
 func (h *AuthHandler) Login(c *gin.Context) {
 	var req LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.Error(errors.New(
-			errors.ErrCodeInvalidInput,
-			"Invalid request body",
-			http.StatusBadRequest,
-		))
+		apperror.BadRequestResponse(c, err)
 		return
 	}
 
 	// Authenticate user
 	user, err := h.userService.Authenticate(req.Email, req.Password)
 	if err != nil {
-		c.Error(errors.New(
-			errors.ErrCodeUnauthorized,
-			"Invalid email or password",
-			http.StatusUnauthorized,
-		))
+		apperror.UnauthorizedResponse(c, "Invalid email or password")
 		return
 	}
 
 	// Generate JWT token
 	token, err := h.authService.GenerateToken(user.ID, req.Email)
 	if err != nil {
-		c.Error(errors.Wrap(
-			err,
-			errors.ErrCodeInternal,
-			"Failed to generate token",
-			http.StatusInternalServerError,
-		))
+		apperror.InternalErrorCustomResponse(c, err, "Failed to generate token")
 		return
 	}
 

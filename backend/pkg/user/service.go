@@ -1,6 +1,9 @@
 package user
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 type Service struct {
 	repo Repository
@@ -11,7 +14,8 @@ func newService(repo Repository) *Service {
 }
 
 func (s *Service) GetAllUsers() ([]User, error) {
-	return s.repo.FindAll()
+	return nil, fmt.Errorf("not implemented")
+	//return s.repo.FindAll()
 }
 
 func (s *Service) GetUser(id int) (*User, error) {

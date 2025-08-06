@@ -2,12 +2,8 @@ package middleware
 
 import (
 	"context"
-	"errors"
-	"log/slog"
-	"net/http"
 	"time"
 
-	apperrors "github.com/felipear89/agent/pkg/server/errors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -41,43 +37,7 @@ func Timeout(config TimeoutConfig) gin.HandlerFunc {
 
 		ctx, cancel := context.WithTimeout(c.Request.Context(), config.Timeout)
 		defer cancel()
-
 		c.Request = c.Request.WithContext(ctx)
-
-		done := make(chan struct{})
-
-		go func() {
-			defer close(done)
-			c.Next()
-		}()
-
-		select {
-		case <-done:
-			return
-
-		case <-ctx.Done():
-			if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-				slog.ErrorContext(c.Request.Context(), "Request processing timed out",
-					"method", c.Request.Method,
-					"path", c.Request.URL.Path,
-					"timeout", config.Timeout.String(),
-				)
-
-				if config.OnTimeout != nil {
-					config.OnTimeout(c)
-				}
-
-				if !c.Writer.Written() {
-					c.Error(apperrors.New(
-						apperrors.ErrCodeTimeout,
-						config.ErrorMessage,
-						http.StatusRequestTimeout,
-					))
-					c.Abort()
-					return
-				}
-				c.Abort()
-			}
-		}
+		c.Next()
 	}
 }
