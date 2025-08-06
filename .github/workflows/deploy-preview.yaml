@@ -9,7 +9,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  test:
+  preview:
+    if: startsWith(github.head_ref, 'deploy')
     name: preview
     runs-on: ubuntu-latest
     steps:
