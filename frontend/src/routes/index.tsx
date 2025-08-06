@@ -9,6 +9,13 @@ import DemoPage from '@/pages/DemoPage';
 export default function AppRoutes() {
   const { isAuthenticated, isLoading } = useAuthContext();
 
+  const removeChatbot = () => {
+    const script = document.querySelector<HTMLIFrameElement>('iframe[src*="agents"]');
+    if (script) {
+      script.style.display = 'none';
+    }
+  };
+
   // Show loading state while checking authentication
   if (isLoading) {
     return (
@@ -16,6 +23,10 @@ export default function AppRoutes() {
         <LoadingSpinner size="large" message="Checking authentication..." />
       </div>
     );
+  }
+
+  if (!isAuthenticated) {
+    removeChatbot();
   }
 
   return (
