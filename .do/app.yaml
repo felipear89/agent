@@ -14,18 +14,6 @@ ingress:
           prefix: /api
 
 services:
-static_sites:
-  - name: website
-    environment_slug: html
-    github:
-      branch: main
-      deploy_on_push: false
-      repo: felipear89/agent
-    build_command: npm install && npm run build
-    catchall_document: index.html
-    source_dir: frontend
-    output_dir: ./dist
-
   - name: api
     environment_slug: go
     instance_count: 1
@@ -40,5 +28,17 @@ static_sites:
       deploy_on_push: false
     source_dir: backend
     instance_size_slug: apps-s-1vcpu-0.5gb
+
+static_sites:
+  - name: website
+    environment_slug: html
+    github:
+      branch: main
+      deploy_on_push: false
+      repo: felipear89/agent
+    build_command: npm install && npm run build
+    catchall_document: index.html
+    source_dir: frontend
+    output_dir: ./dist
 
 
