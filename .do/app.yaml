@@ -22,6 +22,10 @@ services:
         value: release
         scope: RUN_TIME
         type: GENERAL
+      - key: GIN_MODE2
+        value: release
+        scope: RUN_TIME
+        type: GENERAL
     github:
       repo: felipear89/agent
       branch: main
