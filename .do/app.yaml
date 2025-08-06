@@ -7,11 +7,11 @@ ingress:
       match:
         path:
           prefix: /
-# - component:
-  #     name: api
-  #   match:
-  #     path:
-  #       prefix: /api
+    - component:
+        name: api
+      match:
+        path:
+          prefix: /api
 
 services:
 static_sites:
@@ -26,34 +26,19 @@ static_sites:
     source_dir: /frontend
     output_dir: ./dist
 
-  # - name: api
-  #   environment_slug: go
-  #   # autoscaling:
-  #   #   min_instance_count: 1
-  #   #   max_instance_count: 2
-  #   #   metrics:
-  #   #     cpu:
-  #   #       percent: 90
-  #   instance_count: 1
-  #   alerts:
-  #     - rule: CPU_UTILIZATION
-  #       disabled: false
-  #       operator: GREATER_THAN
-  #       value: 75
-  #       window: FIVE_MINUTES
-  #   envs:
-  #     - key: GIN_MODE
-  #       value: release
-  #       scope: RUN_TIME
-  #       type: GENERAL
-  #     - key: SECRET_KEY
-  #       value: secret123
-  #       type: SECRET
-  #   github:
-  #     repo: felipear89/agent
-  #     branch: main
-  #     deploy_on_push: false
-  #   source_dir: backend
-  #   instance_size_slug: apps-s-1vcpu-0.5gb
+  - name: api
+    environment_slug: go
+    instance_count: 1
+    envs:
+      - key: GIN_MODE
+        value: release
+        scope: RUN_TIME
+        type: GENERAL
+    github:
+      repo: felipear89/agent
+      branch: main
+      deploy_on_push: false
+    source_dir: backend
+    instance_size_slug: apps-s-1vcpu-0.5gb
 
 

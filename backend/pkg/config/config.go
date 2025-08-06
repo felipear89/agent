@@ -12,6 +12,7 @@ import (
 type Config struct {
 	ServerPort      string      `env:"PORT"`
 	ResponseTimeout string      `env:"TIMEOUT" envDefault:"30s"`
+	DatabaseURL     string      `env:"DATABASE_URL"`
 	AuthConfig      *AuthConfig `env:",init"`
 }
 
@@ -38,6 +39,8 @@ func LoadConfig() (*Config, error) {
 	if err := cfg.AuthConfig.LoadJWT(); err != nil {
 		return nil, err
 	}
+
+	slog.Info("DatabaseURL loaded", "url", cfg.DatabaseURL)
 
 	return &cfg, nil
 }
