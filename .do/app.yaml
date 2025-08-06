@@ -25,7 +25,7 @@ services:
       - key: DATABASE_URL
         scope: RUN_TIME
         type: SECRET
-        value: EV[1:6yD+cxTofsc8GwntXk4kqhpzdRCUbbQU:S+dXrmsXFd2bQ81MVvJpTQ0M+Rhx]
+        value: 
     github:
       repo: felipear89/agent
       branch: main
