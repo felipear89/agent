@@ -1,10 +1,3 @@
-envs:
-- key: teste
-  scope: RUN_AND_BUILD_TIME
-  type: SECRET
-  value: teste1
-#   value: EV[1:uz+0ftjenlUPkkDwft1kOfpyjS9X2UR4:g3zlHQSL0T+rJeTj+PdIFkvOEtxP]
-
 name: agent
 region: nyc
 ingress:
@@ -26,7 +19,7 @@ static_sites:
     environment_slug: html
     github:
       branch: main
-      deploy_on_push: true
+      deploy_on_push: false
       repo: felipear89/agent
     build_command: npm install && npm run build
     catchall_document: index.html
@@ -59,7 +52,7 @@ static_sites:
   #   github:
   #     repo: felipear89/agent
   #     branch: main
-  #     deploy_on_push: true
+  #     deploy_on_push: false
   #   source_dir: backend
   #   instance_size_slug: apps-s-1vcpu-0.5gb
 
