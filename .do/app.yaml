@@ -2,7 +2,8 @@ envs:
 - key: teste
   scope: RUN_AND_BUILD_TIME
   type: SECRET
-  value: EV[1:5k+tJEqm6RtcpWfgzYq7y1eMBvoKQv0r:dou92AT6T2ORWmF1EWT0+esGqC00qCo=]
+  value: teste1
+#   value: EV[1:uz+0ftjenlUPkkDwft1kOfpyjS9X2UR4:g3zlHQSL0T+rJeTj+PdIFkvOEtxP]
 
 name: agent
 region: nyc
