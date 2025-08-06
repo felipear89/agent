@@ -14,6 +14,7 @@ type AuthConfig struct {
 	JWTPublicKey  string `env:"JWT_PUBLIC_KEY,required"`
 	TokenExpiry   string `env:"JWT_EXPIRATION" envDefault:"24h"`
 	Issuer        string `env:"JWT_ISSUER" envDefault:"agent"`
+	TokenID       string `env:"JWT_ID"`
 
 	JWTPrivateKeyPEM *rsa.PrivateKey
 	JWTPublicKeyPEM  *rsa.PublicKey

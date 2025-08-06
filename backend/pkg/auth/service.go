@@ -38,10 +38,11 @@ func (a *Service) GenerateToken(userID int, email string) (*Token, error) {
 		UserID: userID,
 		Email:  email,
 		RegisteredClaims: jwt.RegisteredClaims{
+			ID:        a.cfg.TokenID,
+			Issuer:    a.cfg.Issuer,
 			ExpiresAt: jwt.NewNumericDate(expiresAt),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
-			Issuer:    a.cfg.Issuer,
 		},
 	}
 
