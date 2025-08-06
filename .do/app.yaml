@@ -7,11 +7,11 @@ ingress:
       match:
         path:
           prefix: /
-    - component:
-        name: api
-      match:
-        path:
-          prefix: /api
+    # - component:
+    #     name: api
+    #   match:
+    #     path:
+    #       prefix: /api
 
 # services:
 #   - name: api
