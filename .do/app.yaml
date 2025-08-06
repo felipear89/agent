@@ -1,3 +1,9 @@
+envs:
+- key: teste
+  scope: RUN_AND_BUILD_TIME
+  type: SECRET
+  value: EV[1:5k+tJEqm6RtcpWfgzYq7y1eMBvoKQv0r:dou92AT6T2ORWmF1EWT0+esGqC00qCo=]
+
 name: agent
 region: nyc
 ingress:
