@@ -13,21 +13,21 @@ ingress:
         path:
           prefix: /api
 
-services:
-  - name: api
-    environment_slug: go
-    instance_count: 1
-    envs:
-      - key: GIN_MODE
-        value: release
-        scope: RUN_TIME
-        type: GENERAL
-    github:
-      repo: felipear89/agent
-      branch: main
-      deploy_on_push: true
-    source_dir: backend
-    instance_size_slug: apps-s-1vcpu-0.5gb
+# services:
+#   - name: api
+#     environment_slug: go
+#     instance_count: 1
+#     envs:
+#       - key: GIN_MODE
+#         value: release
+#         scope: RUN_TIME
+#         type: GENERAL
+#     github:
+#       repo: felipear89/agent
+#       branch: main
+#       deploy_on_push: true
+#     source_dir: backend
+#     instance_size_slug: apps-s-1vcpu-0.5gb
 
 static_sites:
   - name: website
