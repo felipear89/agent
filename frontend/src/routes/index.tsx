@@ -1,8 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthContext } from '@/contexts/AuthContext';
 import LoginPage from '@/pages/LoginPage';
-import WelcomePage from '@/pages/WelcomePage';
-import ChatPage from '@/pages/ChatPage';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import DemoPage from '@/pages/DemoPage';
 
