@@ -22,10 +22,6 @@ services:
         value: release
         scope: RUN_TIME
         type: GENERAL
-      - key: DATABASE_URL
-        scope: RUN_TIME
-        type: SECRET
-        value: 
     github:
       repo: felipear89/agent
       branch: main
