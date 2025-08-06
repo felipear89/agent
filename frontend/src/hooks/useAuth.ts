@@ -43,8 +43,7 @@ export default function useAuth(): AuthState & AuthActions {
 
         // For demo purposes, accept any non-empty credentials
         if (
-          credentials.username !== 'admin' &&
-          credentials.password !== 'admin'
+          credentials.username !== 'admin' ||          credentials.password !== 'admin'
         ) {
           throw new Error('Invalid credentials');
         }
