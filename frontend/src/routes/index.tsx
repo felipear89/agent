@@ -9,7 +9,7 @@ import DemoPage from '@/pages/DemoPage';
 export default function AppRoutes() {
   const { isAuthenticated, isLoading } = useAuthContext();
 
-  const removeChatbot = () => {
+  const hideChatbot = () => {
     const script = document.querySelector<HTMLIFrameElement>('iframe[src*="agents"]');
     if (script) {
       script.style.display = 'none';
@@ -26,7 +26,7 @@ export default function AppRoutes() {
   }
 
   if (!isAuthenticated) {
-    removeChatbot();
+    hideChatbot();
   }
 
   return (
@@ -35,18 +35,6 @@ export default function AppRoutes() {
         path="/login"
         element={
           isAuthenticated ? <Navigate to="/demo" replace /> : <LoginPage />
-        }
-      />
-      <Route
-        path="/welcome"
-        element={
-          isAuthenticated ? <WelcomePage /> : <Navigate to="/login" replace />
-        }
-      />
-      <Route
-        path="/chat"
-        element={
-          isAuthenticated ? <ChatPage /> : <Navigate to="/login" replace />
         }
       />
       <Route
