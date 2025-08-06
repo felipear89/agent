@@ -9,14 +9,14 @@ export default function DemoPage() {
       <div className="demo-container">
         <script
           async
-          src="https://wdtibedlmha6tbwcohjooecj.agents.do-ai.run/static/chatbot/widget.js"
-          data-agent-id="999166d5-723c-11f0-b074-4e013e2ddde4"
-          data-chatbot-id="gPVgoAIfKHHwBeM46Qzo1pLa0Mr9D2Rm"
-          data-name="Kubernetes Genius Chatbot"
+          src="https://ot7q6l7i6k57sxp2ikoi72vx.agents.do-ai.run/static/chatbot/widget.js"
+          data-agent-id="46aa25db-72bf-11f0-b074-4e013e2ddde4"
+          data-chatbot-id="0k-lYmsjp4-blLxB6U2qzWkfaZk7drx1"
+          data-name="agent-legislacao Chatbot"
           data-primary-color="#031B4E"
           data-secondary-color="#E5E8ED"
           data-button-background-color="#0061EB"
-          data-starting-message="Hello! How can I help you today?"
+          data-starting-message="Olá SMULLover, como posso te ajudar ?"
           data-logo="/static/chatbot/icons/default-agent.svg"
         ></script>
         <button className="logout-button-demo" onClick={logout}>
