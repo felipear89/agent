@@ -1,5 +1,5 @@
 name: agent
-
+region: nyc
 ingress:
   rules:
     - component:
@@ -13,7 +13,6 @@ ingress:
   #     path:
   #       prefix: /api
 
-
 services:
 static_sites:
   - name: website
@@ -23,6 +22,7 @@ static_sites:
       deploy_on_push: true
       repo: felipear89/agent
     build_command: npm install && npm run build
+    catchall_document: index.html
     source_dir: /frontend
     output_dir: ./dist
 
