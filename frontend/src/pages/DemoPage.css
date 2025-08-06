@@ -1,0 +1,29 @@
+.demo-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.logout-button-demo {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  /* Keep your existing button styles */
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+.logout-button-demo:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}

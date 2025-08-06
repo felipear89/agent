@@ -7,15 +7,19 @@ interface UserListProps {
   onDeleteUser: (id: number) => void;
 }
 
-export default function UserList({ users, onAddUser, onDeleteUser }: UserListProps) {
+export default function UserList({
+  users,
+  onAddUser,
+  onDeleteUser,
+}: UserListProps) {
   return (
     <div className="users-list">
       <h2 className="users-list-title">List of users</h2>
       <ul className="users-list-ul">
-        {users.map((user) => (
+        {users.map(user => (
           <li className="users-list-item" key={user.id}>
             <span className="user-name">{user.name}</span>
-            <button 
+            <button
               className="delete-user-button"
               onClick={() => onDeleteUser(user.id)}
               title="Delete user"
@@ -25,10 +29,10 @@ export default function UserList({ users, onAddUser, onDeleteUser }: UserListPro
           </li>
         ))}
       </ul>
-      
+
       <button className="add-user-button" onClick={onAddUser}>
         Add User
       </button>
     </div>
   );
-} 
+}

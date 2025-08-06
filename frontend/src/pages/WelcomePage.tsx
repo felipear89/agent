@@ -22,7 +22,7 @@ export default function WelcomePage() {
           <Link to="/chat" className="nav-button chat-button">
             💬 Go to Chat
           </Link>
-          
+
           <button className="logout-button" onClick={logout}>
             Log Out
           </button>

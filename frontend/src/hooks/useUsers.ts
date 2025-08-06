@@ -5,15 +5,16 @@ export function useUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const nextIdRef = useRef(1);
 
-  const addUser = useCallback((name?: string) => {
+  const addUser = useCallback(() => {
     const newUser: User = {
       id: nextIdRef.current,
-      name: name || `New User ${nextIdRef.current}`
+      name: `New User ${nextIdRef.current}`,
     };
-    
+
     setUsers(prevUsers => [...prevUsers, newUser]);
     nextIdRef.current += 1;
-    
+
+    console.log('User added:', newUser);
     return newUser; // Return the created user
   }, []);
 
@@ -22,10 +23,8 @@ export function useUsers() {
   }, []);
 
   const updateUser = useCallback((id: number, updates: Partial<User>) => {
-    setUsers(prevUsers => 
-      prevUsers.map(user => 
-        user.id === id ? { ...user, ...updates } : user
-      )
+    setUsers(prevUsers =>
+      prevUsers.map(user => (user.id === id ? { ...user, ...updates } : user))
     );
   }, []);
 
@@ -34,9 +33,12 @@ export function useUsers() {
     nextIdRef.current = 1; // Reset ID counter
   }, []);
 
-  const findUser = useCallback((id: number) => {
-    return users.find(user => user.id === id);
-  }, [users]);
+  const findUser = useCallback(
+    (id: number) => {
+      return users.find(user => user.id === id);
+    },
+    [users]
+  );
 
   const getUserCount = useMemo(() => users.length, [users]);
 
@@ -47,7 +49,7 @@ export function useUsers() {
     users,
     userCount: getUserCount,
     hasUsers,
-    
+
     // Actions
     addUser,
     deleteUser,
@@ -55,4 +57,4 @@ export function useUsers() {
     clearUsers,
     findUser,
   };
-} 
+}

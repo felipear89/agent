@@ -209,7 +209,6 @@
 }
 
 @media (max-width: 640px) {
-
   .message-content {
     max-width: 90%;
   }
@@ -263,11 +262,17 @@
   animation: typing 1.4s infinite ease-in-out;
 }
 
-.typing-dot:nth-child(1) { animation-delay: -0.32s; }
-.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+.typing-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
 
 @keyframes typing {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0.8);
     opacity: 0.5;
   }
@@ -275,4 +280,4 @@
     transform: scale(1);
     opacity: 1;
   }
-} 
+}
