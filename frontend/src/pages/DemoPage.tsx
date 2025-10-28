@@ -20,7 +20,7 @@ export default function DemoPage() {
           data-primary-color="#031B4E"
           data-secondary-color="#E5E8ED"
           data-button-background-color="#0061EB"
-          data-starting-message="Olá eu sou a SMULLover, como posso te ajudar ?"
+          data-starting-message="Olá eu sou o Engenheiro, como posso te ajudar ?"
           data-logo="/static/chatbot/icons/default-agent.svg"
         ></script>
         <button className="logout-button-demo" onClick={logout}>
