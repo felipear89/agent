@@ -19,7 +19,7 @@ export default function DemoPage() {
   data-primary-color="#031B4E"
   data-secondary-color="#E5E8ED"
   data-button-background-color="#0061EB"
-  data-starting-message="Eu sou seu assistente para documentação de PPP de Esgotos da SANEAGO, em posso te ajudar"
+  data-starting-message="Eu sou seu assistente para documentação da PPP de Esgotos da SANEAGO, em posso te ajudar ?"
   data-logo="/static/chatbot/icons/default-agent.svg">
 </script>
         <button className="logout-button-demo" onClick={logout}>
